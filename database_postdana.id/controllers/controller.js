@@ -1,8 +1,9 @@
+const Model = require("../models/model");
+
 class Controller {
   static getData(req, res, next) {
-    res.status(200).json({
-      message: "Data Seluruh Berita",
-    });
+    const data = Model.seedData();
+    res.status(200).json(data);
   }
 
   static getDataById(req, res, next) {
