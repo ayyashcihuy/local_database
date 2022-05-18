@@ -1,11 +1,8 @@
 const Controller = require("../controllers/controller");
-
-require("dotenv").config();
-
 const router = require("express").Router();
 
-router.get("/", Controller.getData);
-router.get("/:id", Controller.getDataById);
+router.post("/", Controller.seed);
+router.get("/", Controller.findAllNews);
 
 //
 
