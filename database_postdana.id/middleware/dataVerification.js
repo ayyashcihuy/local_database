@@ -4,7 +4,6 @@ const convert = require("xml-js");
 const url = "https://pasardana.id/rss?full=full";
 
 function getData(req, res, next) {
-  let data = [];
   let finalData = [];
   axios({
     method: "get",
@@ -27,24 +26,16 @@ function getData(req, res, next) {
         let tag = [];
         if (tags) {
           tags.map((x) => {
-            // console.log(x, "+++");
             tag.push(x._text);
           });
         }
-
-        let options = {
-          year: "numeric",
-          month: "2-digit",
-          day: "numeric",
-        };
-
         let newsData = {
           idnews: e.guid._text,
           title: e.title,
           link: e.link,
           news: e.description,
           image: e["media:content"]._attributes.url,
-          date: date.toLocaleString("en", options),
+          date: date.toLocaleString("en"),
           tag: tag.join(),
         };
         finalData.push(newsData);
@@ -59,26 +50,26 @@ function getData(req, res, next) {
     });
 }
 
-function compareData(req, res, next) {
+function filterData(req, res, next) {
   const firstData = req.news;
   News.findAll()
     .then((data) => {
       let compare = [];
-      let result = [];
+      let result;
       data.map((e) => {
         compare.push(e.idnews);
         return e;
       });
       for (let x = 0; x < compare.length; x++) {
         for (let y = 0; y < firstData.length; y++) {
-          if (compare[x] == firstData[y].idnews) {
-            result.push(firstData[y]);
+          if (firstData[y].idnews == compare[x]) {
+            firstData.splice(y, 1);
           }
         }
       }
       req.data = {
-        result,
-        length: result.length,
+        firstData,
+        length: firstData.length,
       };
       next();
     })
@@ -87,4 +78,4 @@ function compareData(req, res, next) {
     });
 }
 
-module.exports = { getData, compareData };
+module.exports = { getData, filterData };
