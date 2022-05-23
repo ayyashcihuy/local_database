@@ -3,7 +3,7 @@ const axios = require("axios");
 function seedingData() {
   setInterval(() => {
     axios
-      .post("http://localhost:8000/api/seed")
+      .post("http://localhost:8080/api/seed")
       .then(() => {
         console.log("Api Hited!");
       })

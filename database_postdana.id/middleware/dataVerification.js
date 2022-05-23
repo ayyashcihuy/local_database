@@ -1,7 +1,10 @@
 const { News } = require("../models");
+const striptags = require("striptags");
 const axios = require("axios");
 const convert = require("xml-js");
+const { response } = require("express");
 const url = "https://pasardana.id/rss?full=full";
+const shortUrl = "https://pasardana.id/rss";
 
 function getData(req, res, next) {
   let finalData = [];
@@ -20,8 +23,12 @@ function getData(req, res, next) {
         e.description = e.description._text.replace(/^\s+|\s+$/g, "");
         e.description = e.description
           .replace(/&lt;/g, "<")
-          .replace(/&gt;/g, ">");
+          .replace(/&gt;/g, ">")
+          .replace(/&quot;/g, `"`);
+        const news = striptags(e.description);
         const date = new Date(e.pubDate._text);
+        let image = e["media:content"]._attributes.url;
+        image = image.replace(/&width=175&height=125/g, "");
         let tags = e.category;
         let tag = [];
         if (tags) {
@@ -33,8 +40,8 @@ function getData(req, res, next) {
           idnews: e.guid._text,
           title: e.title,
           link: e.link,
-          news: e.description,
-          image: e["media:content"]._attributes.url,
+          news,
+          image,
           date: date.toLocaleString("en"),
           tag: tag.join(),
         };
