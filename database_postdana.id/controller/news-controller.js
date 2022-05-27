@@ -21,7 +21,12 @@ class Controller {
     const { page, size, title } = req.query;
     let condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
     const { limit, offset } = getPagination(page, size);
-    News.findAndCountAll({ where: condition, limit, offset })
+    News.findAndCountAll({
+      where: condition,
+      limit,
+      offset,
+      order: [["date", "DESC"]],
+    })
       .then((data) => {
         const response = getPagingData(data, page, limit);
         res.status(200).json(response);
@@ -37,7 +42,12 @@ class Controller {
     const { page, size } = req.query;
     let condition = { tag: { [Op.notLike]: `%analisa%` } };
     const { limit, offset } = getPagination(page, size);
-    News.findAndCountAll({ where: condition, limit, offset })
+    News.findAndCountAll({
+      where: condition,
+      limit,
+      offset,
+      order: [["date", "DESC"]],
+    })
       .then((data) => {
         const response = getPagingData(data, page, limit);
         res.status(200).json(response);
@@ -53,7 +63,12 @@ class Controller {
     const { page, size } = req.query;
     let condition = { tag: { [Op.like]: `%analisa%` } };
     const { limit, offset } = getPagination(page, size);
-    News.findAndCountAll({ where: condition, limit, offset })
+    News.findAndCountAll({
+      where: condition,
+      limit,
+      offset,
+      order: [["date", "DESC"]],
+    })
       .then((data) => {
         const response = getPagingData(data, page, limit);
         res.status(200).json(response);
