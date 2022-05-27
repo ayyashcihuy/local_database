@@ -1,10 +1,10 @@
+require("dotenv").config();
 const router = require("./routes/news-route");
 const express = require("express");
 const cors = require("cors");
 const app = express();
 let corsOptions = {
   origin: "http://172.31.166.136:8000",
-  origin: "http://localhost:8000",
 };
 const seedingData = require("./helper/seeder");
 
