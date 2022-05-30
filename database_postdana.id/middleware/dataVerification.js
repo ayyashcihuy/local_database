@@ -20,12 +20,12 @@ function getData(req, res, next) {
       data.map((e) => {
         e.title = e.title._text.replace(/^\s+|\s+$/g, "");
         e.link = e.link._text;
-        e.description = e.description._text.replace(/^\s+|\s+$/g, "");
+        e.description = e.description._text;
         e.description = e.description
           .replace(/&lt;/g, "<")
           .replace(/&gt;/g, ">")
           .replace(/&quot;/g, `"`);
-        const news = striptags(e.description);
+        const news = e.description;
         const date = new Date(e.pubDate._text);
         let image = e["media:content"]._attributes.url;
         image = image.replace(/&width=175&height=125/g, "");

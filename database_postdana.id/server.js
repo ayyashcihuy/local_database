@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 let corsOptions = {
-  origin: "http://172.31.166.136:8000",
+  origin: "*",
 };
 const seedingData = require("./helper/seeder");
 
@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {
   console.log(`Server is running on port:http://localhost:${PORT}`);
 });
