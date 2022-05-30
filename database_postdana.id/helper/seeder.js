@@ -1,16 +1,17 @@
 const axios = require("axios");
+const port = process.env.PORT || 8082;
 
 function seedingData() {
   setInterval(() => {
     axios
-      .post("http://localhost:8080/api/seed")
+      .post(`http://localhost:${port}/api/seed`)
       .then(() => {
         console.log("Api Hited!");
       })
       .catch((err) => {
         console.log("Something went Wrong");
       });
-  }, 3600000);
+  }, 360000);
   return;
 }
 
